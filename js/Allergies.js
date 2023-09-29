@@ -23,5 +23,5 @@ const ifAllergic = aNum => {
         console.log("Tom has no allergies");
     }
 };
-
-ifAllergic(257);
+const askAllergyNumber = prompt("Choose a allergy number");
+ifAllergic(askAllergyNumber);
