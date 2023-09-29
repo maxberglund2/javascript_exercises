@@ -12,8 +12,6 @@ const ifAllergic = aNum => {
     const youHvae = [];
     for (const allergen in allergies) {
         if (aNum & allergies[allergen]) {
-
-            /* console.log(`You are allergic to ${allergen}`); */
             youHvae.push(allergen);
         }
     }
