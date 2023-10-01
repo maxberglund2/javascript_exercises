@@ -1,34 +1,51 @@
-const bookPrice = 800;
-const bookList = [2,2,2,1,1];
+const discount = {
+    1: 1,
+    2: 0.95,
+    3: 0.90,
+    4: 0.80,
+    5: 0.75
+};
 
-const cost = (price, books)=> {
-    const discount = {
-        1: 0,
-        2: 0.5,
-        3: 0.10,
-        4: 0.20,
-        5: 0.25
-    };
-    let sum = 0;
-    let totalDisc;
-    let rest;
-    let bookSum = 0;
+function cost(bookList) {
+    const bookCounts = {}; 
+    for (const book of bookList) {
+        if (bookCounts[book]) {
+            bookCounts[book]++;
+        } else {
+            bookCounts[book] = 1;
+        }
+    }
+    const differentBooks = [];
+    const sameBooks = [];
 
-    for (let x = 0;x<books.length;x++) {
-        sum += books[x];
+    for (const book in bookCounts) {
+        if (bookCounts[book] > 1) {
+            sameBooks.push(book);
+        } else {
+            differentBooks.push(book);
+        }
     }
-    if (books.length >= 5) {
-        rest = sum % 5;
-        sum = 5;
-        totalDisc = discount[sum] + discount[rest];
-        bookSum = price * (sum+rest);
+    let totalCost = 0;
+    while (differentBooks.length > 0) {
+        const differentBooksCount = differentBooks.length;
+
+        totalCost += differentBooksCount * 800 * discount[differentBooksCount];
+        for (let i = 0; i < differentBooksCount; i++) {
+            bookCounts[differentBooks[i]]--;
+            if (bookCounts[differentBooks[i]] === 0) {
+                differentBooks.splice(i, 1);
+                i--;
+            }
+        }
     }
-    else {
-        totalDisc = discount[sum];
-        bookSum = price * sum;
+    for (const book in bookCounts) {
+        if (bookCounts[book] > 0) {
+            totalCost += bookCounts[book] * 800;
+        }
     }
-    let discountedSum = bookSum - totalDisc * bookSum;
-    console.log('Total price is: ' + '$' + discountedSum);
+
+    return console.log(`Total cost: ${totalCost / 100} dollars`);
 }
 
-cost(bookPrice,bookList);
+const bookList = ['A', 'A', 'A', 'B', 'B', 'C'];
+cost(bookList);
