@@ -1,13 +1,13 @@
 const discount = {
-    1: 1,
+    1: 0,
     2: 0.95,
     3: 0.90,
     4: 0.80,
     5: 0.75
 };
 
-function cost(bookList) {
-    const bookCounts = {}; 
+const cost = bookList => {
+    const bookCounts = {};
     for (const book of bookList) {
         if (bookCounts[book]) {
             bookCounts[book]++;
@@ -17,7 +17,6 @@ function cost(bookList) {
     }
     const differentBooks = [];
     const sameBooks = [];
-
     for (const book in bookCounts) {
         if (bookCounts[book] > 1) {
             sameBooks.push(book);
@@ -28,7 +27,6 @@ function cost(bookList) {
     let totalCost = 0;
     while (differentBooks.length > 0) {
         const differentBooksCount = differentBooks.length;
-
         totalCost += differentBooksCount * 800 * discount[differentBooksCount];
         for (let i = 0; i < differentBooksCount; i++) {
             bookCounts[differentBooks[i]]--;
@@ -43,9 +41,12 @@ function cost(bookList) {
             totalCost += bookCounts[book] * 800;
         }
     }
+    if (bookList.length === 1) {
+        totalCost = 800;
+    }
 
     return console.log(`Total cost: ${totalCost / 100} dollars`);
 }
 
-const bookList = ['A', 'A', 'A', 'B', 'B', 'C'];
+const bookList = ['A','B','C','A','A','B'];
 cost(bookList);
